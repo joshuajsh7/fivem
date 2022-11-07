@@ -1,4 +1,4 @@
-USE `es_extended`;
+USE `fivem`;
 
 ALTER TABLE `users`
 	ADD COLUMN `firstname` VARCHAR(16) NULL DEFAULT NULL,
