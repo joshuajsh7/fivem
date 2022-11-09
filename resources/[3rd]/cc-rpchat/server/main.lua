@@ -23,7 +23,7 @@ RegisterCommand('ooc', function(source, args, rawCommand)
     else 
         local playerName = GetPlayerName(source)
     end
-    TriggerClientEvent('cc-rpchat:addMessage', -1, '#3498db', 'fa-solid fa-globe', 'OOC | '..playerName, msg)
+    TriggerClientEvent('cc-rpchat:addMessage', -1, '#3498db', 'fa-solid fa-globe', 'OOC | ', msg)
 end, false)
 
 RegisterCommand('me', function(source, args, rawCommand)
