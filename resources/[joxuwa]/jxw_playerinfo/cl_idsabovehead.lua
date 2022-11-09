@@ -54,12 +54,12 @@ Citizen.CreateThread(function()
 						red = 0
 						green = 0
 						blue = 255
-						DrawText3D(x2, y2, z2 + displayIDHeight, GetPlayerServerId(id))
+						DrawText3D(x2, y2, z2 + displayIDHeight, ESX.GetPlayerData().identifier)
 					else
 						red = 255
 						green = 255
 						blue = 255
-						DrawText3D(x2, y2, z2 + displayIDHeight, GetPlayerServerId(id))
+						DrawText3D(x2, y2, z2 + displayIDHeight, ESX.GetPlayerData().identifier)
 					end
                 end
 
@@ -69,12 +69,12 @@ Citizen.CreateThread(function()
 							red = 0
 							green = 0
 							blue = 255
-							DrawText3D(x2, y2, z2 + displayIDHeight, GetPlayerServerId(id))
+							DrawText3D(x2, y2, z2 + displayIDHeight, ESX.GetPlayerData().identifier)
 						else
 							red = 255
 							green = 255
 							blue = 255
-							DrawText3D(x2, y2, z2 + displayIDHeight, GetPlayerServerId(id))
+							DrawText3D(x2, y2, z2 + displayIDHeight, ESX.GetPlayerData().identifier)
 						end
                     end
                 end  
