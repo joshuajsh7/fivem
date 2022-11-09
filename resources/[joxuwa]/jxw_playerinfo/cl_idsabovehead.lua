@@ -1,23 +1,26 @@
-local disPlayerNames = 5
-local playerDistances = {}
+local showPlayerBlips = false
+local ignorePlayerNameDistance = false
+local playerNamesDist = 15
+local displayIDHeight = 1.5 --Height of ID above players head(starts at center body mass)
+--Set Default Values for Colors
+local red = 255
+local green = 255
+local blue = 255
 
-local function DrawText3D(position, text, r,g,b) 
-    local onScreen,_x,_y=World3dToScreen2d(position.x,position.y,position.z+1)
-    local dist = #(GetGameplayCamCoords()-position)
- 
+function DrawText3D(x,y,z, text) 
+    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+    local dist = GetDistanceBetweenCoords(px,py,pz, x,y,z, 1)
+
     local scale = (1/dist)*2
     local fov = (1/GetGameplayCamFov())*100
     local scale = scale*fov
-   
+    
     if onScreen then
-        if not useCustomScale then
-            SetTextScale(0.0*scale, 0.55*scale)
-        else 
-            SetTextScale(0.0*scale, customScale)
-        end
+        SetTextScale(0.0*scale, 0.55*scale)
         SetTextFont(0)
         SetTextProportional(1)
-        SetTextColour(r, g, b, 255)
+        SetTextColour(red, green, blue, 255)
         SetTextDropshadow(0, 0, 0, 0, 255)
         SetTextEdge(2, 0, 0, 0, 150)
         SetTextDropShadow()
@@ -25,45 +28,60 @@ local function DrawText3D(position, text, r,g,b)
         SetTextEntry("STRING")
         SetTextCentre(1)
         AddTextComponentString(text)
+		World3dToScreen2d(x,y,z, 0) --Added Here
         DrawText(_x,_y)
     end
 end
 
 Citizen.CreateThread(function()
-	Wait(500)
     while true do
-        for _, id in ipairs(GetActivePlayers()) do
-            local targetPed = GetPlayerPed(id)
-            if targetPed ~= PlayerPedId() then
-                if playerDistances[id] then
-                    if playerDistances[id] < disPlayerNames then
-                        local targetPedCords = GetEntityCoords(targetPed)
-                        if NetworkIsPlayerTalking(id) then
-                            DrawText3D(targetPedCords, GetPlayerServerId(id), 247,124,24)
-                            DrawMarker(27, targetPedCords.x, targetPedCords.y, targetPedCords.z-0.97, 0, 0, 0, 0, 0, 0, 1.001, 1.0001, 0.5001, 173, 216, 230, 100, 0, 0, 0, 0)
-                        else
-                            DrawText3D(targetPedCords, GetPlayerServerId(id), 255,255,255)
-                        end
-                    end
-                end
-            end
-        end
         Citizen.Wait(0)
-    end
-end)
+        if IsControlPressed(1, 48) then
+            for i=0,99 do
+                N_0x31698aa80e0223f8(i)
+            end
+            for id = 0, 31 do
+                if  ((NetworkIsPlayerActive( id )) and GetPlayerPed( id ) ~= GetPlayerPed( -1 )) then
+                ped = GetPlayerPed( id )
+                blip = GetBlipFromEntity( ped ) 
+ 
+                x1, y1, z1 = table.unpack( GetEntityCoords( GetPlayerPed( -1 ), true ) )
+                x2, y2, z2 = table.unpack( GetEntityCoords( GetPlayerPed( id ), true ) )
+                distance = math.floor(GetDistanceBetweenCoords(x1,  y1,  z1,  x2,  y2,  z2,  true))
 
-Citizen.CreateThread(function()
-    while true do
-        local playerPed = PlayerPedId()
-        local playerCoords = GetEntityCoords(playerPed)
-        
-        for _, id in ipairs(GetActivePlayers()) do
-            local targetPed = GetPlayerPed(id)
-            if targetPed ~= playerPed then
-                local distance = #(playerCoords-GetEntityCoords(targetPed))
-				playerDistances[id] = distance
+                if(ignorePlayerNameDistance) then
+					if NetworkIsPlayerTalking(id) then
+						red = 0
+						green = 0
+						blue = 255
+						DrawText3D(x2, y2, z2 + displayIDHeight, GetPlayerServerId(id))
+					else
+						red = 255
+						green = 255
+						blue = 255
+						DrawText3D(x2, y2, z2 + displayIDHeight, GetPlayerServerId(id))
+					end
+                end
+
+                if ((distance < playerNamesDist)) then
+                    if not (ignorePlayerNameDistance) then
+						if NetworkIsPlayerTalking(id) then
+							red = 0
+							green = 0
+							blue = 255
+							DrawText3D(x2, y2, z2 + displayIDHeight, GetPlayerServerId(id))
+						else
+							red = 255
+							green = 255
+							blue = 255
+							DrawText3D(x2, y2, z2 + displayIDHeight, GetPlayerServerId(id))
+						end
+                    end
+                end  
             end
         end
-        Wait(1000)
+        elseif not IsControlPressed(1, 48) then
+            DrawText3D(0, 0, 0, "")
+        end
     end
 end)
