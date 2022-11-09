@@ -3,11 +3,8 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
         if IsControlJustPressed(0, z_key) then
-            local timestamp = os.time()
-            local d = os.date('*t', timestamp).wday
-            local h = tonumber(os.date('%H', timestamp))
-            local m = tonumber(os.date('%M', timestamp))
-            TriggerEvent('chatMessage', '', {255, 0, 0}, m)
+            local time = GetLocalTime()
+            TriggerEvent('chatMessage', '', {255, 0, 0}, time)
         end
     end
 end)
