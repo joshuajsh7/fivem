@@ -14,7 +14,7 @@
 .gameColor-g{color: #99cc00;}
 .gameColor-y{color: #ffbb33;}
 .gameColor-b{color: #33b5e5;}
-    src: url("../BarlowCondensed.ttf");
+    /* src: url("../BarlowCondensed.ttf"); */
 
 * {
   font-family: "Segoe UI", Arial, sans-serif;
@@ -36,7 +36,7 @@ em {
   font-family: 'Barlow Condensed', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #ecf0f;
+  color: #ecf0f1;
   background-color: transparent;
 }
 
