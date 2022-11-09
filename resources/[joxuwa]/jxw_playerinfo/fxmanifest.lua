@@ -1,8 +1,9 @@
+-- Resource Metadata
 fx_version 'bodacious'
-game 'gta5'
+games { 'gta5' }
 
-author 'Joxuwa'
-description 'Show Player Info (ID)'
+author 'rubbertoe98'
+description 'IDsAboveHead'
 version '1.0.0'
 
-client_script 'client/client.lua'
+client_script "cl_idsabovehead.lua"
